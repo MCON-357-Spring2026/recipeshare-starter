@@ -8,6 +8,7 @@ python-dotenv==1.0.1
 Flask-Login==0.6.3
 Flask-Security==5.5.2
 Flask-JWT-Extended==4.7.1
+flask-cors==3.0.10
 
 # Testing
 pytest==8.3.5

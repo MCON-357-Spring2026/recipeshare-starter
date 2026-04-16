@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from .config import Config
 from .extensions import db, migrate, login_manager
@@ -6,6 +7,7 @@ from .extensions import db, migrate, login_manager
 
 def create_app(test_config: dict | None = None) -> Flask:
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(Config)
 
     # Allow tests (or other callers) to override config before extensions bind
