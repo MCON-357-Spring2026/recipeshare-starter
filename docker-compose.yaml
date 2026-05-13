@@ -1,0 +1,38 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_APP: app
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/recipeshare
+    depends_on:
+      - db
+  # ── Next.js frontend ────────────────────────────────────────────────────────
+  frontend:
+    image: frontend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      # next.config.mjs reads this to know where to proxy /api/* and /auth/*
+      BACKEND_URL: http://web:5000
+      NODE_ENV: production
+    depends_on:
+      - web
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: recipeshare
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
